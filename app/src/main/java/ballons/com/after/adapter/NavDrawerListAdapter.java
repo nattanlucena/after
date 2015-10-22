@@ -64,6 +64,6 @@ public class NavDrawerListAdapter extends BaseAdapter{
             mCount.setVisibility(View.GONE);
         }
 
-        return null;
+        return view;
     }
 }

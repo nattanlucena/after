@@ -15,7 +15,7 @@
     <array name="nav_drawer_icons">
         <item>@drawable/ic_home</item>
         <item>@drawable/ic_account</item>
-        <item>@drawable/ic_settings_black</item>
+        <item>@drawable/ic_settings</item>
         <item>@drawable/ic_contact</item>
     </array>
 
