@@ -74,8 +74,6 @@ public class MainActivity extends Activity {
         navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(4, -1), navMenuTitles[4]));
         //contact
         navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(5, -1), navMenuTitles[5]));
-        //rating
-        navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(6, -1), navMenuTitles[6]));
 
         //Recycle the typed array
         navMenuIcons.recycle();
@@ -179,9 +177,6 @@ public class MainActivity extends Activity {
                 break;
             case 5:
                 fragment = new ContactFragment();
-                break;
-            case 6:
-                Toast.makeText(this, "Teste", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;

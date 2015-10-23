@@ -6,13 +6,12 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="nav_draw_itens">
-        <item>feed</item>
-        <item>perfil</item>
-        <item>minhas reservas</item>
-        <item>minhas avaliações</item>
-        <item>configurações</item>
-        <item>contato</item>
-        <item>Sair</item>
+        <item>Principal</item>
+        <item>Perfil</item>
+        <item>Minhas Reservas</item>
+        <item>Minhas Avaliações</item>
+        <item>Configurações</item>
+        <item>Contato</item>
     </string-array>
 
     <array name="nav_drawer_icons">
@@ -22,7 +21,6 @@
         <item>@drawable/ic_rating</item>
         <item>@drawable/ic_settings</item>
         <item>@drawable/ic_contact</item>
-        <item>@drawable/ic_logout</item>
     </array>
 
     <!-- Content Description -->
