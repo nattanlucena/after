@@ -7,19 +7,18 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import ballons.com.after.R;
 
 
-public class HomeFragment extends Fragment {
+public class BookingFragment extends Fragment {
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static BookingFragment newInstance() {
+        BookingFragment fragment = new BookingFragment();
         return fragment;
     }
 
-    public HomeFragment() {
+    public BookingFragment() {
     }
 
     @Override
@@ -30,8 +29,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        return rootView;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_booking, container, false);
     }
-
 }

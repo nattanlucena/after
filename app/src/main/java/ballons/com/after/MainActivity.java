@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
@@ -15,11 +14,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ballons.com.after.adapter.NavDrawerListAdapter;
+import ballons.com.after.fragment.BookingFragment;
+import ballons.com.after.fragment.ContactFragment;
 import ballons.com.after.fragment.HomeFragment;
+import ballons.com.after.fragment.ProfileFragment;
+import ballons.com.after.fragment.RatingFragment;
+import ballons.com.after.fragment.SettingsFragment;
 import ballons.com.after.model.NavDrawerItem;
 
 //http://www.androidhive.info/2013/11/android-sliding-menu-using-navigation-drawer/
@@ -42,7 +47,6 @@ public class MainActivity extends Activity {
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +66,21 @@ public class MainActivity extends Activity {
         navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(0, -1), navMenuTitles[0]));
         //profile
         navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(1, -1), navMenuTitles[1]));
-        //settings
+        //booking
         navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(2, -1), navMenuTitles[2]));
-        //contact
+        //rating
         navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(3, -1), navMenuTitles[3]));
+        //settings
+        navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(4, -1), navMenuTitles[4]));
+        //contact
+        navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(5, -1), navMenuTitles[5]));
+        //rating
+        navDrawerItems.add(new NavDrawerItem(navMenuIcons.getResourceId(6, -1), navMenuTitles[6]));
 
         //Recycle the typed array
         navMenuIcons.recycle();
+
+        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
         adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
         mDrawerList.setAdapter(adapter);
@@ -76,7 +88,7 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, null, R.string.app_name, R.string.app_name){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, null, R.string.app_name, R.string.app_name) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 getActionBar().setTitle(mTitle);
@@ -98,7 +110,7 @@ public class MainActivity extends Activity {
 
     }
 
-    private class SlideMenuClickListener implements ListView.OnItemClickListener{
+    private class SlideMenuClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             displayView(i);
@@ -126,14 +138,14 @@ public class MainActivity extends Activity {
         }
     }
 
-    /***
+    /**
      * Called when invalidateOptionsMenu() is triggered
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if nav drawer is opened, hide the action items
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        //menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -145,7 +157,7 @@ public class MainActivity extends Activity {
 
     /**
      * Diplaying fragment view for selected nav drawer list item
-     * */
+     */
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
@@ -153,7 +165,24 @@ public class MainActivity extends Activity {
             case 0:
                 fragment = new HomeFragment();
                 break;
-
+            case 1:
+                fragment = new ProfileFragment();
+                break;
+            case 2:
+                fragment = new BookingFragment();
+                break;
+            case 3:
+                fragment = new RatingFragment();
+                break;
+            case 4:
+                fragment = new SettingsFragment();
+                break;
+            case 5:
+                fragment = new ContactFragment();
+                break;
+            case 6:
+                Toast.makeText(this, "Teste", Toast.LENGTH_LONG).show();
+                break;
             default:
                 break;
         }
@@ -187,8 +216,6 @@ public class MainActivity extends Activity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
-
 
 
 }
