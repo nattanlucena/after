@@ -162,6 +162,7 @@ public class MainActivity extends Activity {
         switch (position) {
             case 0:
                 fragment = new HomeFragment();
+
                 break;
             case 1:
                 fragment = new ProfileFragment();

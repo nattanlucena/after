@@ -1,6 +1,7 @@
 package ballons.com.after.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,13 +15,14 @@ import ballons.com.after.R;
 
 public class HomeFragment extends Fragment {
 
+    private Context mContex;
+
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         return fragment;
     }
 
-    public HomeFragment() {
-    }
+    public HomeFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,4 +36,11 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+    public Context getContext(){
+        return mContex;
+    }
+
+    public void setContext(Context context){
+        this.mContex = context;
+    }
 }
