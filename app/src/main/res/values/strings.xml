@@ -11,7 +11,7 @@
         <item>Minhas Reservas</item>
         <item>Minhas Avaliações</item>
         <item>Configurações</item>
-        <item>Contato</item>
+        <item>Sobre</item>
     </string-array>
 
     <array name="nav_drawer_icons">
@@ -20,7 +20,7 @@
         <item>@drawable/ic_booking</item>
         <item>@drawable/ic_rating</item>
         <item>@drawable/ic_settings</item>
-        <item>@drawable/ic_contact</item>
+        <item>@drawable/ic_about</item>
     </array>
 
     <!-- Content Description -->

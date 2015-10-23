@@ -14,13 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ballons.com.after.adapter.NavDrawerListAdapter;
 import ballons.com.after.fragment.BookingFragment;
-import ballons.com.after.fragment.ContactFragment;
+import ballons.com.after.fragment.AboutFragment;
 import ballons.com.after.fragment.HomeFragment;
 import ballons.com.after.fragment.ProfileFragment;
 import ballons.com.after.fragment.RatingFragment;
@@ -176,7 +175,7 @@ public class MainActivity extends Activity {
                 fragment = new SettingsFragment();
                 break;
             case 5:
-                fragment = new ContactFragment();
+                fragment = new AboutFragment();
                 break;
             default:
                 break;

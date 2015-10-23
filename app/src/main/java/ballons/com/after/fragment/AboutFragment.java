@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 
 import ballons.com.after.R;
 
-public class ContactFragment extends Fragment {
+public class AboutFragment extends Fragment {
 
-    public static ContactFragment newInstance(String param1, String param2) {
-        ContactFragment fragment = new ContactFragment();
+    public static AboutFragment newInstance(String param1, String param2) {
+        AboutFragment fragment = new AboutFragment();
         return fragment;
     }
 
-    public ContactFragment() {
+    public AboutFragment() {
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact, container, false);
+        return inflater.inflate(R.layout.fragment_about, container, false);
     }
 
 }
