@@ -27,6 +27,7 @@ import ballons.com.after.fragment.SettingsFragment;
 import ballons.com.after.model.NavDrawerItem;
 
 //http://www.androidhive.info/2013/11/android-sliding-menu-using-navigation-drawer/
+//http://www.androidhive.info/2014/06/android-facebook-like-custom-listview-feed-using-volley/
 public class MainActivity extends Activity {
 
     private DrawerLayout mDrawerLayout;
