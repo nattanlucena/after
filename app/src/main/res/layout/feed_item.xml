@@ -15,6 +15,7 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/feed_item_padding_top_bottom"
         android:paddingTop="@dimen/feed_item_padding_top_bottom"
+        android:focusable="false"
         >
 
         <LinearLayout
@@ -23,34 +24,38 @@
             android:orientation="horizontal"
             android:paddingLeft="@dimen/feed_item_padding_left_right"
             android:paddingRight="@dimen/feed_item_padding_left_right"
+            android:focusable="false"
             >
-
+<!--
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/profilePic"
                 android:layout_width="@dimen/feed_item_profile_pic"
                 android:layout_height="@dimen/feed_item_profile_pic"
                 android:scaleType="fitCenter"
                 />
-
+-->
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/feed_item_profile_info_padd" >
+                android:paddingLeft="@dimen/feed_item_profile_info_padd"
+                android:focusable="false">
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/feed_item_profile_name"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:focusable="false"/>
 
                 <TextView
                     android:id="@+id/timestamp"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/timestamp"
-                    android:textSize="@dimen/feed_item_timestamp" />
+                    android:textSize="@dimen/feed_item_timestamp"
+                    android:focusable="false"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -61,8 +66,9 @@
             android:paddingBottom="5dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:paddingTop="@dimen/feed_item_status_pad_top" />
-
+            android:paddingTop="@dimen/feed_item_status_pad_top"
+            android:focusable="false"/>
+<!--
         <TextView
             android:id="@+id/txtUrl"
             android:layout_width="fill_parent"
@@ -71,15 +77,17 @@
             android:paddingBottom="10dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:textColorLink="@color/link" />
-
+            android:textColorLink="@color/link"
+            android:focusable="false"/>
+-->
         <ballons.com.after.FeedImageView
             android:id="@+id/feedImage1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:scaleType="fitXY"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:focusable="false"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 
 import ballons.com.after.R;
 
-
+//http://antoine-merle.com/blog/2013/10/04/making-that-google-plus-profile-screen/
+//https://github.com/flavienlaurent/NotBoringActionBar
 public class ProfileFragment extends Fragment {
 
     public static ProfileFragment newInstance(String param1, String param2) {

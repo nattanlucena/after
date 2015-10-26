@@ -1,15 +1,15 @@
 package ballons.com.after.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Cache;
 import com.android.volley.Request;
@@ -23,7 +23,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +44,12 @@ public class HomeFragment extends Fragment {
     private String URL_FEED = "http://api.androidhive.info/feed/feed.json";
 
 
+    public HomeFragment(){}
+
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         return fragment;
     }
-
-    public HomeFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,14 +67,36 @@ public class HomeFragment extends Fragment {
         mFeedListAdapter = new FeedListAdapter(getActivity(), mFeedItems);
         mListView.setAdapter(mFeedListAdapter);
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Fragment fragment = new MotelProfileFragment();
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack("tag").commit();
+                }
+            }
+        });
+
+        /*
+        * carregar dados no scroll
+        * https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews
+        * https://gist.github.com/anonymous/b4d3597e913327afadd5
+         */
+
         Cache mCache = AppController.getInstance().getRequestQueue().getCache();
         Cache.Entry entry = mCache.get(URL_FEED);
 
         if( entry != null){
             try{
                 String data = new String(entry.data, "UTF-8");
+
                 try{
-                    parseJsonFeed(new JSONObject(data));
+                    JSONObject feedData = new JSONObject(data);
+                    if(feedData.length() == 0 )
+                        Log.d("length: ", "json vazio");
+
+                    parseJsonFeed(feedData);
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
@@ -134,6 +158,23 @@ public class HomeFragment extends Fragment {
             mFeedListAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean isOnline(){
+        try
+        {
+            HttpURLConnection urlc = (HttpURLConnection) (new URL(URL_FEED).openConnection());
+            urlc.setRequestProperty("User-Agent", "Test");
+            urlc.setRequestProperty("Connection", "close");
+            urlc.setConnectTimeout(3000); //choose your own timeframe
+            urlc.setReadTimeout(4000); //choose your own timeframe
+            urlc.connect();
+
+            return (urlc.getResponseCode() == 200);
+        } catch (IOException e)
+        {
+            return (false);  //connectivity exists, but no internet.
         }
     }
 

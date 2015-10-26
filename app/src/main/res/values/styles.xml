@@ -3,8 +3,22 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:textSize">18sp</item>
+
         <item name="android:logo">@android:color/transparent</item>
+        <!-- <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
+       <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
+       -->
+   </style>
+
+   <style name="AppTheme.ActionBar" parent="android:Theme.Holo.Light.DarkActionBar">
+       <item name="height">40dp</item>
+       <item name="android:textSize">18sp</item>
+       <!--
+       <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
+       <item name="titleTextStyle">@style/AppTheme.ActionBar.TitleText</item>
+       <item name="android:height">@dimen/bar_height</item>
+       <item name="height">@dimen/bar_height</item>
+       -->
     </style>
 
 </resources>

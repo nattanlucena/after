@@ -3,8 +3,10 @@ package ballons.com.after;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.ListFragment;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.os.StrictMode;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -51,6 +53,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         mTitle = mDrawerTitle = getTitle();
 
@@ -162,7 +168,6 @@ public class MainActivity extends Activity {
         switch (position) {
             case 0:
                 fragment = new HomeFragment();
-
                 break;
             case 1:
                 fragment = new ProfileFragment();
@@ -186,7 +191,7 @@ public class MainActivity extends Activity {
         if (fragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+                    .replace(R.id.frame_container, fragment).addToBackStack( "tag" ).commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);

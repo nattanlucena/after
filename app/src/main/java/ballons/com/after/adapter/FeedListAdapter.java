@@ -6,11 +6,15 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -35,6 +39,8 @@ public class FeedListAdapter extends BaseAdapter {
     ImageLoader mImageLoader = AppController.getInstance().getImageLoader();
 
     public FeedListAdapter(Activity activity, List<FeedItem> items){
+        //super(activity,R.layout.feed_item, items);
+
         mAcitivity = activity;
         mFeedItems= items;
     }
@@ -45,9 +51,11 @@ public class FeedListAdapter extends BaseAdapter {
     }
 
     @Override
+
     public Object getItem(int i) {
         return mFeedItems.get(i);
     }
+
 
     @Override
     public long getItemId(int i) {
@@ -69,9 +77,9 @@ public class FeedListAdapter extends BaseAdapter {
         TextView name = (TextView) view.findViewById(R.id.name);
         TextView timestamp = (TextView) view.findViewById(R.id.timestamp);
         TextView statusMsg = (TextView) view.findViewById(R.id.txtStatusMsg);
-        TextView url = (TextView) view.findViewById(R.id.txtUrl);
+        //TextView url = (TextView) view.findViewById(R.id.txtUrl);
 
-        NetworkImageView profilePic = (NetworkImageView) view.findViewById(R.id.profilePic);
+        //NetworkImageView profilePic = (NetworkImageView) view.findViewById(R.id.profilePic);
         FeedImageView feedImageView = (FeedImageView) view.findViewById(R.id.feedImage1);
 
         FeedItem item = mFeedItems.get(position);
@@ -91,6 +99,7 @@ public class FeedListAdapter extends BaseAdapter {
             statusMsg.setVisibility(View.GONE);
         }
 
+        /*
         if( item.getUrl() != null){
             url.setText(Html.fromHtml(
                     "<a href=\"" + item.getUrl() + "\">"
@@ -101,8 +110,9 @@ public class FeedListAdapter extends BaseAdapter {
         }else{
             statusMsg.setVisibility(View.GONE);
         }
+        */
 
-        profilePic.setImageUrl(item.getProfilePic(), mImageLoader);
+        //profilePic.setImageUrl(item.getProfilePic(), mImageLoader);
 
         if( item.getImage() != null){
             feedImageView.setImageUrl(item.getImage(), mImageLoader);
