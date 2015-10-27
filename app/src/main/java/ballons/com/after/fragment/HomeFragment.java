@@ -70,19 +70,21 @@ public class HomeFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FeedItem item = (FeedItem) adapterView.getItemAtPosition(i);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id", String.valueOf(item.getId()));
+                bundle.putString("name", String.valueOf(item.getName()));
+
                 Fragment fragment = new MotelProfileFragment();
                 if (fragment != null) {
+                    fragment.setArguments(bundle);
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack("tag").commit();
                 }
+
             }
         });
-
-        /*
-        * carregar dados no scroll
-        * https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews
-        * https://gist.github.com/anonymous/b4d3597e913327afadd5
-         */
 
         Cache mCache = AppController.getInstance().getRequestQueue().getCache();
         Cache.Entry entry = mCache.get(URL_FEED);
