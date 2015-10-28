@@ -1,12 +1,12 @@
 package ballons.com.after.fragment;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,24 +24,23 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ballons.com.after.R;
 import ballons.com.after.Utils.GradientOverImageDrawable;
+
 import ballons.com.after.adapter.MotelRoomListAdapter;
 import ballons.com.after.app.AppController;
-import ballons.com.after.model.FeedItem;
 import ballons.com.after.model.MotelRoomItem;
+
 
 /*
 * carregar dados no scroll
 * https://github.com/codepath/android_guides/wiki/Endless-Scrolling-with-AdapterViews
 * https://gist.github.com/anonymous/b4d3597e913327afadd5
  */
-
 public class MotelProfileFragment extends Fragment {
 
     private int mPosition;

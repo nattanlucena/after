@@ -99,21 +99,6 @@ public class FeedListAdapter extends BaseAdapter {
             statusMsg.setVisibility(View.GONE);
         }
 
-        /*
-        if( item.getUrl() != null){
-            url.setText(Html.fromHtml(
-                    "<a href=\"" + item.getUrl() + "\">"
-                    + item.getUrl() + "</a>"
-            ));
-            url.setMovementMethod(LinkMovementMethod.getInstance());
-            url.setVisibility(View.VISIBLE);
-        }else{
-            statusMsg.setVisibility(View.GONE);
-        }
-        */
-
-        //profilePic.setImageUrl(item.getProfilePic(), mImageLoader);
-
         if( item.getImage() != null){
             feedImageView.setImageUrl(item.getImage(), mImageLoader);
             feedImageView.setVisibility(View.VISIBLE);
