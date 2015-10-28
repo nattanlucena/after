@@ -8,8 +8,7 @@
     <RelativeLayout
         android:id="@+id/header_profile"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/header_profile_image"
@@ -17,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="false"
             android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:src="@drawable/profile_motel_pic" />
 
         <!-- header -->
@@ -46,19 +46,14 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/header_profile"
-
-        >
-
         <ListView
-            android:id="@+id/motel_rooms"
+            android:id="@+id/motel_room_list"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:divider="@null" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header_profile"
+            android:divider="@color/list_divider"
+            android:dividerHeight="1dp"
+            android:listSelector="@drawable/motel_room_list_row_selector" />
 
-    </RelativeLayout>
 
 </RelativeLayout>

@@ -7,33 +7,34 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Cache;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import ballons.com.after.FeedImageView;
 import ballons.com.after.R;
 import ballons.com.after.Utils.GradientOverImageDrawable;
+import ballons.com.after.adapter.MotelRoomListAdapter;
 import ballons.com.after.app.AppController;
 import ballons.com.after.model.FeedItem;
+import ballons.com.after.model.MotelRoomItem;
 
 /*
 * carregar dados no scroll
@@ -44,10 +45,10 @@ import ballons.com.after.model.FeedItem;
 public class MotelProfileFragment extends Fragment {
 
     private int mPosition;
-    ImageLoader mImageLoader = AppController.getInstance().getImageLoader();
-    private String URL_FEED = "http://api.androidhive.info/feed/feed.json";
-    private List<FeedItem> mFeedItems;
-
+    private ListView mRoomsListView;
+    private List<MotelRoomItem> mMotelRoomItems;
+    private MotelRoomListAdapter mMotelRoomListAdapter;
+    private String URL_FEED = "http://api.androidhive.info/json/movies.json";
 
     public MotelProfileFragment() {
         // Required empty public constructor
@@ -71,7 +72,6 @@ public class MotelProfileFragment extends Fragment {
         mProfileName.setTextColor(Color.WHITE);
         mProfileLocalization.setTextColor(Color.WHITE);
 
-
         //http://www.ixtendo.com/how-to-add-a-caption-text-over-an-image-in-android/
         //TODO: integrar com a imagem baixada com o Volley
         Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.profile_motel_pic);
@@ -82,64 +82,51 @@ public class MotelProfileFragment extends Fragment {
         gradientOverImageDrawable.setGradientColors(gradientStartColor, gradientEndColor);
         mHeaderImage.setImageDrawable(gradientOverImageDrawable);
 
-        /*
-        Cache mCache = AppController.getInstance().getRequestQueue().getCache();
-        Cache.Entry entry = mCache.get(URL_FEED);
 
-        FeedImageView feedImageView = (FeedImageView) mView.findViewById(R.id.header_profile_image);
+        mRoomsListView = (ListView) mView.findViewById(R.id.motel_room_list);
+        mMotelRoomItems = new ArrayList<MotelRoomItem>();
+        mMotelRoomListAdapter = new MotelRoomListAdapter(getActivity(), mMotelRoomItems);
+        mRoomsListView.setAdapter(mMotelRoomListAdapter);
 
-        if( item.getImage() != null){
-            feedImageView.setImageUrl(item.getImage(), mImageLoader);
-            feedImageView.setVisibility(View.VISIBLE);
-            feedImageView.setResponseObserver(new FeedImageView.ResponseObserver() {
-                @Override
-                public void onError() {
-
-                }
-
-                @Override
-                public void onSuccess() {
-
-                }
-            });
-        }
-
-        if( entry != null){
-            try{
-                String data = new String(entry.data, "UTF-8");
-
-                try{
-                    JSONObject feedData = new JSONObject(data);
-                    if(feedData.length() == 0 )
-                        Log.d("length: ", "json vazio");
-
-                    parseJsonFeed(feedData);
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+        mRoomsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                MotelRoomItem item = (MotelRoomItem) adapterView.getItemAtPosition(i);
+                //TODO: irá para o profile do quarto selecionado
+                Log.d("room", item.getName());
             }
-        }else{
+        });
 
-            JsonObjectRequest jsoReq = new JsonObjectRequest(Request.Method.GET, URL_FEED, null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    VolleyLog.d(TAG, "Response: " + response.toString());
-                    if (response != null) {
-                        parseJsonFeed(response);
+        JsonArrayRequest itemReq = new JsonArrayRequest(URL_FEED,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for(int i = 0; i < response.length(); i++){
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                MotelRoomItem item = new MotelRoomItem();
+                                item.setName(obj.getString("title"));
+                                item.setThumb(obj.getString("image"));
+                                item.setRating(obj.getString("rating"));
+                                item.setDescription(obj.getString("releaseYear"));
+
+                                mMotelRoomItems.add(item);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        mMotelRoomListAdapter.notifyDataSetChanged();
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d(TAG, "Error: " + error.getMessage());
-                }
-            });
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
+            }
+        });
 
-            AppController.getInstance().addToRequestQueue(jsoReq);
-        }
-        */
+        AppController.getInstance().addToRequestQueue(itemReq);
         return mView;
     }
 
@@ -154,40 +141,4 @@ public class MotelProfileFragment extends Fragment {
     private void getDataFromServer(){
         //TODO: Utilizar o Volley para realizar o GET com os dados do motel
     }
-
-    /*
-    private void parseJsonFeed(JSONObject response) {
-        try {
-            JSONArray feedArray = response.getJSONArray("feed");
-
-            for (int i = 0; i < feedArray.length(); i++) {
-                JSONObject feedObj = (JSONObject) feedArray.get(i);
-
-                FeedItem item = new FeedItem();
-                item.setId(feedObj.getInt("id"));
-                item.setName(feedObj.getString("name"));
-
-                // Image might be null sometimes
-                String image = feedObj.isNull("image") ? null : feedObj
-                        .getString("image");
-                item.setImage(image);
-                item.setStatus(feedObj.getString("status"));
-                item.setProfilePic(feedObj.getString("profilePic"));
-                item.setTimeStamp(feedObj.getString("timeStamp"));
-
-                // url might be null sometimes
-                String feedUrl = feedObj.isNull("url") ? null : feedObj
-                        .getString("url");
-                item.setUrl(feedUrl);
-
-                mFeedItems.add(item);
-            }
-
-            // notify data changes to list adapater
-            mFeedListAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 }
