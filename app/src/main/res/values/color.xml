@@ -15,4 +15,13 @@
     <color name="link">#0a80d1</color>
     <color name="timestamp">#a0a3a7</color>
 
+    <!-- Motel room List -->
+    <color name="motel_room_description">#666666</color>
+    <color name="motel_room_price_range">#888888</color>
+    <color name="motel_room_list_divider">#d9d9d9</color>
+    <color name="motel_room_list_row_start_color">#ffffff</color>
+    <color name="motel_room_list_row_end_color">#ffffff</color>
+    <color name="motel_room_list_row_hover_start_color">#ebeef0</color>
+    <color name="motel_room_list_row_hover_end_color">#ebeef0</color>
+
 </resources>

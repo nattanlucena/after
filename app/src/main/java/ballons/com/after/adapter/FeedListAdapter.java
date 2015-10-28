@@ -33,7 +33,7 @@ import ballons.com.after.model.FeedItem;
  */
 public class FeedListAdapter extends BaseAdapter {
 
-    private Activity mAcitivity;
+    private Activity mActivity;
     private LayoutInflater mInflater;
     private List<FeedItem> mFeedItems;
     ImageLoader mImageLoader = AppController.getInstance().getImageLoader();
@@ -41,7 +41,7 @@ public class FeedListAdapter extends BaseAdapter {
     public FeedListAdapter(Activity activity, List<FeedItem> items){
         //super(activity,R.layout.feed_item, items);
 
-        mAcitivity = activity;
+        mActivity = activity;
         mFeedItems= items;
     }
 
@@ -66,7 +66,7 @@ public class FeedListAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup viewGroup) {
 
         if(mInflater == null)
-            mInflater = (LayoutInflater) mAcitivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if(view == null)
             view = mInflater.inflate(R.layout.feed_item, null);

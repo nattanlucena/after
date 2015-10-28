@@ -7,16 +7,36 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Cache;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ballons.com.after.R;
 import ballons.com.after.Utils.GradientOverImageDrawable;
+import ballons.com.after.adapter.MotelRoomListAdapter;
+import ballons.com.after.app.AppController;
+import ballons.com.after.model.FeedItem;
+import ballons.com.after.model.MotelRoomItem;
 
 /*
 * carregar dados no scroll
@@ -27,6 +47,10 @@ import ballons.com.after.Utils.GradientOverImageDrawable;
 public class MotelProfileFragment extends Fragment {
 
     private int mPosition;
+    private ListView mRoomsListView;
+    private List<MotelRoomItem> mMotelRoomItems;
+    private MotelRoomListAdapter mMotelRoomListAdapter;
+    private String URL_FEED = "http://api.androidhive.info/json/movies.json";
 
     public MotelProfileFragment() {
         // Required empty public constructor
@@ -60,6 +84,51 @@ public class MotelProfileFragment extends Fragment {
         gradientOverImageDrawable.setGradientColors(gradientStartColor, gradientEndColor);
         mHeaderImage.setImageDrawable(gradientOverImageDrawable);
 
+
+        mRoomsListView = (ListView) mView.findViewById(R.id.motel_room_list);
+        mMotelRoomItems = new ArrayList<MotelRoomItem>();
+        mMotelRoomListAdapter = new MotelRoomListAdapter(getActivity(), mMotelRoomItems);
+        mRoomsListView.setAdapter(mMotelRoomListAdapter);
+
+        mRoomsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                MotelRoomItem item = (MotelRoomItem) adapterView.getItemAtPosition(i);
+                //TODO: irá para o profile do quarto selecionado
+                Log.d("room", item.getName());
+            }
+        });
+
+        JsonArrayRequest itemReq = new JsonArrayRequest(URL_FEED,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for(int i = 0; i < response.length(); i++){
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                MotelRoomItem item = new MotelRoomItem();
+                                item.setName(obj.getString("title"));
+                                item.setThumb(obj.getString("image"));
+                                item.setRating(obj.getString("rating"));
+                                item.setDescription(obj.getString("releaseYear"));
+
+                                mMotelRoomItems.add(item);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        mMotelRoomListAdapter.notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("", "Error: " + error.getMessage());
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(itemReq);
         return mView;
     }
 
@@ -71,7 +140,43 @@ public class MotelProfileFragment extends Fragment {
         this.mPosition = mId;
     }
 
-    private void getDataFromServer(){
+    private void getDataFromServer() {
         //TODO: Utilizar o Volley para realizar o GET com os dados do motel
     }
+
+    /*
+    private void parseJsonFeed(JSONObject response) {
+        try {
+            JSONArray feedArray = response.getJSONArray("feed");
+
+            for (int i = 0; i < feedArray.length(); i++) {
+                JSONObject feedObj = (JSONObject) feedArray.get(i);
+
+                MotelRoomItem item = new MotelRoomItem();
+                item.setId(feedObj.getInt("id"));
+                item.setName(feedObj.getString("name"));
+
+                // Image might be null sometimes
+                String image = feedObj.isNull("image") ? null : feedObj
+                        .getString("image");
+                item.setImage(image);
+                item.setStatus(feedObj.getString("status"));
+                item.setProfilePic(feedObj.getString("profilePic"));
+                item.setTimeStamp(feedObj.getString("timeStamp"));
+
+                // url might be null sometimes
+                String feedUrl = feedObj.isNull("url") ? null : feedObj
+                        .getString("url");
+                item.setUrl(feedUrl);
+
+                mFeedItems.add(item);
+            }
+
+            // notify data changes to list adapater
+            mFeedListAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    */
 }
