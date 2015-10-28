@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
             StrictMode.setThreadPolicy(policy);
         }
 
-        mTitle = mDrawerTitle = getTitle();
+        mTitle = mDrawerTitle;
 
         navMenuTitles = getResources().getStringArray(R.array.nav_draw_itens);
         navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
@@ -101,7 +101,7 @@ public class MainActivity extends Activity {
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+                getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu();
             }
         };

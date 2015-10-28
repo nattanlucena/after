@@ -1,63 +1,64 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    tools:context="ballons.com.after.fragment.MotelProfileFragment">
+    tools:context="ballons.com.after.fragment.MotelProfileFragment"
+    >
 
     <RelativeLayout
         android:id="@+id/header_profile"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        >
 
         <ImageView
             android:id="@+id/header_profile_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
             android:src="@drawable/profile_motel_pic" />
 
         <!-- header -->
         <LinearLayout
-
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/header_profile_image"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_alignBottom="@id/header_profile_image"
+            android:orientation="vertical"
             android:layout_marginRight="5dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp">
 
             <TextView
                 android:id="@+id/profile_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Union Motel"
+                android:text="Mercure Hotel"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/profile_localization"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/header_profile_image"
                 android:text="Cabedelo, Paraiba"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/header_profile"
+
+        >
 
         <ListView
             android:id="@+id/motel_rooms"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/header_profile"
+            android:layout_height="match_parent"
             android:divider="@null" />
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>
