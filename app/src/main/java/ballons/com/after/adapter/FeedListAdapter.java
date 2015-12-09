@@ -1,25 +1,15 @@
 package ballons.com.after.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.Html;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -27,25 +17,54 @@ import ballons.com.after.FeedImageView;
 import ballons.com.after.R;
 import ballons.com.after.app.AppController;
 import ballons.com.after.model.FeedItem;
+import ballons.com.after.model.FeedItemViewHolder;
 
 /**
  * Created by Nattan on 23/10/2015.
  */
-public class FeedListAdapter extends BaseAdapter {
+public class FeedListAdapter extends RecyclerView.Adapter<FeedItemViewHolder> {
 
-    private Activity mActivity;
-    private LayoutInflater mInflater;
     private List<FeedItem> mFeedItems;
+    private Context mContext;
     ImageLoader mImageLoader = AppController.getInstance().getImageLoader();
 
-    public FeedListAdapter(Activity activity, List<FeedItem> items){
-        //super(activity,R.layout.feed_item, items);
-
-        mActivity = activity;
-        mFeedItems= items;
+    public FeedListAdapter(Context context, List<FeedItem> items) {
+        this.mContext = context;
+        this.mFeedItems = items;
     }
 
     @Override
+    public FeedItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item, null);
+        FeedItemViewHolder viewHolder = new FeedItemViewHolder(view);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(FeedItemViewHolder holder, int position) {
+
+        if (mImageLoader == null)
+            mImageLoader = AppController.getInstance().getImageLoader();
+
+        FeedItem item = mFeedItems.get(position);
+        holder.mTextView.setText(item.getName());
+        holder.mImageView.setImageUrl(item.getImage(), mImageLoader);
+
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public int getItemCount() {
+        return (null != mFeedItems ? mFeedItems.size() : 0);
+    }
+
+    /*
+
+        @Override
     public int getCount() {
         return mFeedItems.size();
     }
@@ -58,20 +77,15 @@ public class FeedListAdapter extends BaseAdapter {
 
 
     @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
 
-        if(mInflater == null)
+        if (mInflater == null)
             mInflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if(view == null)
-            view = mInflater.inflate(R.layout.feed_item, null);
+        if (view == null)
+            view = mInflater.inflate(R.layout.feed_itembkp, null);
 
-        if(mImageLoader == null)
+        if (mImageLoader == null)
             mImageLoader = AppController.getInstance().getImageLoader();
 
         TextView name = (TextView) view.findViewById(R.id.name);
@@ -92,14 +106,14 @@ public class FeedListAdapter extends BaseAdapter {
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
         timestamp.setText(timeAgo);
 
-        if(!TextUtils.isEmpty(item.getStatus())){
+        if (!TextUtils.isEmpty(item.getStatus())) {
             statusMsg.setText(item.getStatus());
             statusMsg.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             statusMsg.setVisibility(View.GONE);
         }
 
-        if( item.getImage() != null){
+        if (item.getImage() != null) {
             feedImageView.setImageUrl(item.getImage(), mImageLoader);
             feedImageView.setVisibility(View.VISIBLE);
             feedImageView.setResponseObserver(new FeedImageView.ResponseObserver() {
@@ -113,10 +127,11 @@ public class FeedListAdapter extends BaseAdapter {
 
                 }
             });
-        }else{
+        } else {
             feedImageView.setVisibility(View.GONE);
         }
 
         return view;
     }
+    */
 }

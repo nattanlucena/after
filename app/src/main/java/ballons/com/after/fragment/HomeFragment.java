@@ -3,6 +3,8 @@ package ballons.com.after.fragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +40,12 @@ import ballons.com.after.model.FeedItem;
 public class HomeFragment extends Fragment {
 
     private static String TAG = HomeFragment.class.getSimpleName();
-    private ListView mListView;
-    private FeedListAdapter mFeedListAdapter;
     private List<FeedItem> mFeedItems;
     private String URL_FEED = "http://api.androidhive.info/feed/feed.json";
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     public HomeFragment(){}
@@ -60,6 +64,19 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        mFeedItems = new ArrayList<FeedItem>();
+
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.feed_list);
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mAdapter = new FeedListAdapter(getActivity(), mFeedItems);
+        mRecyclerView.setAdapter(mAdapter);
+/*
         mListView = (ListView) rootView.findViewById(R.id.feed_list);
 
         mFeedItems = new ArrayList<FeedItem>();
@@ -85,7 +102,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
+*/
         Cache mCache = AppController.getInstance().getRequestQueue().getCache();
         Cache.Entry entry = mCache.get(URL_FEED);
 
@@ -157,7 +174,7 @@ public class HomeFragment extends Fragment {
             }
 
             // notify data changes to list adapater
-            mFeedListAdapter.notifyDataSetChanged();
+           // mFeedListAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
