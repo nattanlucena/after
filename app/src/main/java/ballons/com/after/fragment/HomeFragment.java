@@ -12,11 +12,18 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -34,30 +41,29 @@ import java.util.List;
 import ballons.com.after.R;
 import ballons.com.after.adapter.FeedListAdapter;
 import ballons.com.after.app.AppController;
+import ballons.com.after.callbacks.FeedListItemLoadedListener;
 import ballons.com.after.model.FeedItem;
+import ballons.com.after.task.TaskLoadFeedItemList;
+import ballons.com.after.utils.UrlEndpoints;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements FeedListItemLoadedListener {
 
     private static String TAG = HomeFragment.class.getSimpleName();
-    private List<FeedItem> mFeedItems;
-    private String URL_FEED = "http://api.androidhive.info/feed/feed.json";
+    private ArrayList<FeedItem> mFeedItems;
+    private String URL_FEED = UrlEndpoints.URL_FEED_LIST;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private FeedListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private TextView textVolleyError;
 
     public HomeFragment(){}
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -71,40 +77,29 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
-
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new FeedListAdapter(getActivity(), mFeedItems);
+        mAdapter = new FeedListAdapter(AppController.getInstance(), mFeedItems);
         mRecyclerView.setAdapter(mAdapter);
-/*
-        mListView = (ListView) rootView.findViewById(R.id.feed_list);
 
-        mFeedItems = new ArrayList<FeedItem>();
+        //feedItemRequest();
 
-        mFeedListAdapter = new FeedListAdapter(getActivity(), mFeedItems);
-        mListView.setAdapter(mFeedListAdapter);
+        new TaskLoadFeedItemList(this).execute();
+        mAdapter.setFeedItemList(mFeedItems);
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FeedItem item = (FeedItem) adapterView.getItemAtPosition(i);
+        return rootView;
+    }
 
-                Bundle bundle = new Bundle();
-                bundle.putString("id", String.valueOf(item.getId()));
-                bundle.putString("name", String.valueOf(item.getName()));
+    /*
+      * Volley implementation
+      * Feed Item Request
+      */
+    public void feedItemRequest(){
 
-                Fragment fragment = new MotelProfileFragment();
-                if (fragment != null) {
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack("tag").commit();
-                }
-
-            }
-        });
-*/
         Cache mCache = AppController.getInstance().getRequestQueue().getCache();
         Cache.Entry entry = mCache.get(URL_FEED);
+
+        Log.d("entryCache", String.valueOf(entry));
 
         if( entry != null){
             try{
@@ -142,9 +137,7 @@ public class HomeFragment extends Fragment {
             AppController.getInstance().addToRequestQueue(jsoReq);
         }
 
-        return rootView;
     }
-
 
     private void parseJsonFeed(JSONObject response) {
         try {
@@ -197,4 +190,35 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //feedItemRequest();
+    }
+
+    @Override
+    public void onFeedListItemLoadedListener(ArrayList<FeedItem> listItems) {
+        mAdapter.setFeedItemList(listItems);
+    }
+
+    private void handleVolleyError(VolleyError error){
+        textVolleyError.setVisibility(View.VISIBLE);
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+            //textVolleyError.setText(R.string.error_timeout);
+            //TODO
+        } else if (error instanceof AuthFailureError) {
+            //textVolleyError.setText(R.string.error_auth_failure);
+            //TODO
+        } else if (error instanceof ServerError) {
+            //textVolleyError.setText(R.string.error_auth_failure);
+            //TODO
+        } else if (error instanceof NetworkError) {
+            //textVolleyError.setText(R.string.error_network);
+            //TODO
+        } else if (error instanceof ParseError) {
+            //textVolleyError.setText(R.string.error_parser);
+            //TODO
+        }
+    }
 }

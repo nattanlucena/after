@@ -2,8 +2,6 @@ package ballons.com.after.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,44 +9,50 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import ballons.com.after.FeedImageView;
+import ballons.com.after.extras.FeedImageView;
 import ballons.com.after.R;
 import ballons.com.after.app.AppController;
 import ballons.com.after.model.FeedItem;
-import ballons.com.after.model.FeedItemViewHolder;
 
 /**
  * Created by Nattan on 23/10/2015.
  */
-public class FeedListAdapter extends RecyclerView.Adapter<FeedItemViewHolder> {
+public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.FeedItemViewHolder> {
 
     private List<FeedItem> mFeedItems;
     private Context mContext;
     ImageLoader mImageLoader = AppController.getInstance().getImageLoader();
+    LayoutInflater mLayoutInflater;
 
     public FeedListAdapter(Context context, List<FeedItem> items) {
         this.mContext = context;
         this.mFeedItems = items;
+
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public FeedItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item, null);
+        View view = mLayoutInflater.inflate(R.layout.feed_item, null);
         FeedItemViewHolder viewHolder = new FeedItemViewHolder(view);
         return viewHolder;
+    }
+
+    public void setFeedItemList(ArrayList<FeedItem> list) {
+        this.mFeedItems = list;
+        notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(FeedItemViewHolder holder, int position) {
 
-        if (mImageLoader == null)
-            mImageLoader = AppController.getInstance().getImageLoader();
-
         FeedItem item = mFeedItems.get(position);
         holder.mTextView.setText(item.getName());
-        holder.mImageView.setImageUrl(item.getImage(), mImageLoader);
+
+        loadImage(item.getImage(), holder);
 
     }
 
@@ -62,6 +66,40 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedItemViewHolder> {
         return (null != mFeedItems ? mFeedItems.size() : 0);
     }
 
+    static class FeedItemViewHolder extends RecyclerView.ViewHolder {
+        public FeedImageView mImageView;
+        public TextView mTextView;
+
+        public FeedItemViewHolder(View itemView) {
+            super(itemView);
+
+            this.mImageView = (FeedImageView) itemView.findViewById(R.id.img_card_item);
+            this.mTextView = (TextView) itemView.findViewById(R.id.txt_card_item);
+        }
+    }
+
+    private void loadImage(String url, FeedItemViewHolder holder) {
+        if (mImageLoader == null)
+            mImageLoader = AppController.getInstance().getImageLoader();
+
+        if (url != null) {
+            holder.mImageView.setImageUrl(url, mImageLoader);
+            holder.mImageView.setVisibility(View.VISIBLE);
+            holder.mImageView.setResponseObserver(new FeedImageView.ResponseObserver() {
+                @Override
+                public void onError() {
+                    //
+                }
+
+                @Override
+                public void onSuccess() {
+                    //
+                }
+            });
+        } else {
+            holder.mImageView.setVisibility(View.GONE);
+        }
+    }
     /*
 
         @Override

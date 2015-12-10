@@ -1,4 +1,4 @@
-package ballons.com.after;
+package ballons.com.after.activities;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import ballons.com.after.R;
 import ballons.com.after.adapter.NavDrawerListAdapter;
 import ballons.com.after.fragment.BookingFragment;
 import ballons.com.after.fragment.AboutFragment;

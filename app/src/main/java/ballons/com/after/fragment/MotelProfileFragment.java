@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.Cache;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ballons.com.after.R;
-import ballons.com.after.Utils.GradientOverImageDrawable;
+import ballons.com.after.utils.GradientOverImageDrawable;
 
 import ballons.com.after.adapter.MotelRoomListAdapter;
 import ballons.com.after.app.AppController;

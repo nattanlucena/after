@@ -81,7 +81,7 @@
             android:textColorLink="@color/link"
             android:focusable="false"/>
 -->
-        <ballons.com.after.FeedImageView
+        <ballons.com.after.extras.FeedImageView
             android:id="@+id/feedImage1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

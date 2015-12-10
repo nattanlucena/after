@@ -19,6 +19,7 @@ import ballons.com.after.volley.LruBitmapCache;
 public class AppController extends Application {
 
     public static final String TAG = AppController.class.getSimpleName();
+    public static final String API_KEY_FEED_LIST = "54wzfswsa4qmjg8hjwa64d4c";
 
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;

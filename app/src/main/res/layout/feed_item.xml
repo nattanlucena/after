@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ballons.com.after.FeedImageView
+            <ballons.com.after.extras.FeedImageView
                 android:id="@+id/img_card_item"
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
