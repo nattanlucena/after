@@ -12,7 +12,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main"
+            android:configChanges="orientation"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

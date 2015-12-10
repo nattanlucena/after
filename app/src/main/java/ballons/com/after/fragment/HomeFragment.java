@@ -67,6 +67,13 @@ public class HomeFragment extends Fragment implements FeedListItemLoadedListener
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        new TaskLoadFeedItemList(this).execute();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
@@ -84,7 +91,6 @@ public class HomeFragment extends Fragment implements FeedListItemLoadedListener
 
         //feedItemRequest();
 
-        new TaskLoadFeedItemList(this).execute();
         mAdapter.setFeedItemList(mFeedItems);
 
         return rootView;

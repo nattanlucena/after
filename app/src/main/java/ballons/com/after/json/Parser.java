@@ -46,8 +46,6 @@ public class Parser {
 
             }
 
-            // notify data changes to list adapater
-            // mFeedListAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
